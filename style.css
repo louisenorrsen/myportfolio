@@ -1,0 +1,31 @@
+/*Import fonts from assets*/
+@font-face {
+    font-family: 'baskervvillesc';
+    src: url('assets/fonts/BaskervvilleSC-Regular.ttf') format('truetype');
+}
+
+/* Variables */
+:root {
+    --font-family: 'baskervvillesc', serif;
+    --background-color: #252e36;
+    --text-color: #F2F2F2;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+h1, h2, h3 {
+    font-family: var(--font-family);
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    align-items:flex-end;
+}
