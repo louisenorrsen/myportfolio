@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../css/reset.css" />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link rel="stylesheet" href="guess-the-number.css" />
+    <link rel="icon" type="image/x-icon" href="../../assets/logo.ico" />
+
+    <script src="guess-the-number.js" defer></script>
+    <title>Guess the Number</title>
+  </head>
+  <body>
+    <header>
+      <img src="../../assets/original_logo.png" alt="Louise Norrsén Logo" class="logo" />
+      <h1>Guess the Number</h1>
+    </header>
+    <main>
+      <section><a href="../../" class="button back-button">← Back to Games</a></section>
+      <section class="game-container">
+        <h2>Guess a number between 1 and 100:</h2>
+        <p class="feedback" id="feedback"></p>
+        <input type="number" id="guessInput" min="1" max="100" />
+        <button class="button submit-button" id="submitGuess">Submit Guess</button>
+        <p class="attempts" id="attempts"></p>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; 2026 Louise Norrsén. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

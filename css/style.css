@@ -1,0 +1,120 @@
+/*Import fonts from assets*/
+@font-face {
+    font-family: 'baskervvillesc';
+    src: url('../assets/fonts/BaskervvilleSC-Regular.ttf') format('truetype');
+}
+
+/* Variables */
+:root {
+    --font-family: 'baskervvillesc', serif;
+    --background-color: #252e36;
+    --primary-color: #252e36;
+    --text-color: #f2f2f2;
+    --button-color: #fbb03b;
+    --submit-button-color: #ab6bfd;
+    --green-color: #28fa99;
+    --red-color: #f25b22;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    width:80%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+h1 {
+    font-family: var(--font-family);
+    font-size: 2rem;
+    letter-spacing: 0.1rem;
+    width: stretch;
+    text-align: center;
+}
+
+header {
+    width: 100%;
+    flex: 0 0 auto;  
+    display:flex;
+    flex-direction: row;
+    align-items: flex-end;
+    margin-bottom: 2rem;
+}
+
+/* BUTTONS*/
+.button {
+    color: var(--primary-color);
+    padding: 0.5rem 1rem;
+    margin: 0.5rem;
+    border-radius: 0.5rem;
+    font: inherit;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}
+
+.back-button {
+    text-decoration: none;
+    display: inline-flex;
+    position: relative;
+    top: 0;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1;
+    background-color: var(--button-color);
+    touch-action: manipulation;
+}
+
+/* MAIN */
+main {
+    flex: 1;
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+}
+
+.game-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-rows: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.game-card {
+    display:block;
+    padding: 1.5rem;
+    text-decoration: none;
+    background: white;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+    transition: transform 150ms ease, border-color 150ms ease;
+}
+
+    .game-card:hover,
+    .game-card:focus-visible {
+        transform: translateY(-2px);
+        border-color: #0070f3;
+    }
+
+footer {   
+    text-align: center;
+    flex: 0 0 auto;  
+    padding: 1rem;
+    margin: 0 auto;
+    width: 80%;
+}
