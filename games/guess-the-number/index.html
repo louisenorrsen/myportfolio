@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="guess-the-number.css" />
     <link rel="icon" type="image/x-icon" href="../../assets/logo.ico" />
 
-    <script src="guess-the-number.js" defer></script>
+    <script type="module" src="guess-the-number.js"></script>
+    <script type="module" src="../../js/highscore.js"></script>
     <title>Guess the Number</title>
   </head>
   <body>
@@ -17,7 +18,10 @@
       <h1>Guess the Number</h1>
     </header>
     <main>
-      <section><a href="../../" class="button back-button">← Back to Games</a></section>
+      <section>
+        <a href="../../" class="button back-button">← Back to Games</a>
+        <button class="button highscore-button" id="highscoreButton">Highscore</button>
+      </section>
       <section class="game-container">
         <h2>Guess a number between 1 and 100:</h2>
         <p class="feedback" id="feedback"></p>
