@@ -23,7 +23,11 @@ submitGuess.addEventListener("click", () => {
         feedback.textContent = `Correct!`;
         feedback.classList.remove("wrong");
         feedback.classList.add("correct");
-        attemptsDisplay.textContent = `You've guessed the number ${secretNumber} in ${attempts} attempts.`;
+        attemptsDisplay.textContent = `You've guessed the number ${secretNumber} in ${attempts} guesses.`;
+        if (highScores.length < 5 || attempts < highScores[highScores.length - 1].score) {
+            highScores = saveHighScores("guess-the-number", attempts, true);
+            alert(`New High Score! You've guessed the number in ${attempts} guesses.`);
+        }
         // Reset the game
         secretNumber = Math.floor(Math.random() * 100) + 1;
         attempts = 0;

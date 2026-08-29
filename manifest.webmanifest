@@ -1,0 +1,22 @@
+{
+    "name": "Mini games",
+    "short_name": "Mini Games",
+    "start_url": "./",
+    "scope": "./",
+    "display": "standalone",
+    "background_color": "#252e36",
+    "text_color": "#f2f2f2",
+    "theme_color": "#252e36",
+    "icons": [
+        {
+            "src": "assets/logo-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/logo-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
