@@ -3,6 +3,11 @@ main {
     flex-direction: column;
 }
 
+a:link, a:visited {
+    color: var(--dark-text-color);
+    text-decoration: none;
+}
+
 .submit-button {
     background-color: var(--submit-button-color);
 }
