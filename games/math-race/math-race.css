@@ -1,6 +1,11 @@
+main {
+  display: flex;
+  flex-direction: column;
+}
+
 h2 {
-    font-size: 1.5rem;
-    margin: 1rem 0;
+  font-size: 1.5rem;
+  margin: 1rem 0;
 }
 
 .pregame-container {
@@ -11,8 +16,13 @@ h2 {
   display: none;
 }
 
+.game-info {
+  display: flex;
+  flex-direction: row;
+}
+
+.timer,
 .score {
-    font-size: 1.2rem;
-    margin: 1rem;
-    align-self: flex-end;
+  font-size: 1.2rem;
+  margin: 1rem;
 }

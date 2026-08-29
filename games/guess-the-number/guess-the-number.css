@@ -8,14 +8,6 @@ a:link, a:visited {
     text-decoration: none;
 }
 
-.submit-button {
-    background-color: var(--submit-button-color);
-}
-
-.highscore-button {
-    background-color: var(--green-color);
-}
-
 .feedback {
     font-weight: bold;
     margin:2rem;

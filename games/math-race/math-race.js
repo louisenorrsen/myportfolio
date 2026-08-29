@@ -1,3 +1,5 @@
+import { getHighScores, saveHighScores } from '../../js/highscore.js';
+let highScores = getHighScores('math-race');
 let score = 0;
 let level = 1;
 
@@ -6,6 +8,7 @@ let wrongAnswers = 0;
 
 let correctAnswer = 0;
 let startTime = 0;
+let timerInterval;
 
 let gameOver = false;
 
@@ -29,10 +32,12 @@ const startButton = document.getElementById('startButton');
 const submitButton = document.getElementById('submitAnswer');
 const userAnswer = document.getElementById('answerInput');
 const questionDisplay = document.getElementById('question');
-const scoreDisplay = document.getElementById('scoreValue');
+const scoreDisplay = document.getElementById('scoreDisplay');
+const timerDisplay = document.getElementById('timerDisplay');
 const gameInstructions = document.getElementById('game-instructions');
 const pregameContainer = document.getElementById('pregameContainer');
 const gameContainer = document.getElementById('gameContainer');
+const highscoreButton = document.getElementById('highscoreButton');
 
 function getRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -50,30 +55,32 @@ function getCurrentDifficulty() {
 function generateQuestion() {
   const currentDifficulty = getCurrentDifficulty();
   let question;
-
-  switch (currentDifficulty.type) {
-    case 'within':
-      question = generateWithin(currentDifficulty.max);
-      break;
-    case 'noCrossTen':
-      question = generateNoCrossTen(currentDifficulty.min, currentDifficulty.max);
-      break;
-    case 'crossTen':
-      question = generateCrossTen(currentDifficulty.min, currentDifficulty.max);
-      break;
-    case 'tens':
-      question = generateTens();
-      break;
-    case 'twoDigit':
-      question = generateTwoDigit();
-      break;
-    case 'withinHundred':
-      question = generateWithinHundred();
-      break;
-    case 'hundreds':
-      question = generateHundreds();
-      break;
-  }
+  questionDisplay.style.color = "var(--light-text-color)";
+  do {
+    switch (currentDifficulty.type) {
+      case 'within':
+        question = generateWithin(currentDifficulty.max);
+        break;
+      case 'noCrossTen':
+        question = generateNoCrossTen(currentDifficulty.min, currentDifficulty.max);
+        break;
+      case 'crossTen':
+        question = generateCrossTen(currentDifficulty.min, currentDifficulty.max);
+        break;
+      case 'tens':
+        question = generateTens();
+        break;
+      case 'twoDigit':
+        question = generateTwoDigit();
+        break;
+      case 'withinHundred':
+        question = generateWithinHundred();
+        break;
+      case 'hundreds':
+        question = generateHundreds();
+        break;
+    }
+  } while (question.num1 <= 0 || question.num2 <= 0 || question.answer <= 0);
 
   correctAnswer = question.answer;
 
@@ -84,18 +91,28 @@ function generateQuestion() {
   answerInput.focus();
 
   startTime = performance.now();
+
+  clearInterval(timerInterval);
+
+  timerInterval = setInterval(() => {
+    const elapsedTime = performance.now() - startTime;
+
+    const elapsedSeconds = elapsedTime / 1000;
+
+    timerDisplay.textContent = elapsedSeconds.toLocaleString('sv-SE', { minimumFractionDigits: 3, maximumFractionDigits: 3 }) + " s";
+  }, 100);
 }
 
 function generateWithin(max) {
   const operator = getRandomOperator();
   let num1, num2;
   if (operator === '+') {
-    num1 = getRandomNumber(0, max);
-    num2 = getRandomNumber(0, max - num1);
+    num1 = getRandomNumber(1, max - 1);
+    num2 = getRandomNumber(1, max - num1);
     return { num1, num2, operator, answer: num1 + num2 };
   }
-  num1 = getRandomNumber(0, max);
-  num2 = getRandomNumber(0, num1);
+  num1 = getRandomNumber(2, max);
+  num2 = getRandomNumber(1, num1 - 1);
   return { num1, num2, operator, answer: num1 - num2 };
 }
 
@@ -246,6 +263,8 @@ function checkAnswer() {
     return;
   }
 
+  clearInterval(timerInterval);
+
   const answer = Number(userAnswer.value);
 
   if (answer === correctAnswer) {
@@ -256,85 +275,122 @@ function checkAnswer() {
 }
 
 function handleCorrectAnswer() {
-    const responseTime = performance.now() - startTime;
+  const responseTime = performance.now() - startTime;
 
-    correctStreak++;
+  correctStreak++;
+  questionDisplay.style.color = "var(--green-color)";
+  const points = calculatePoints(responseTime);
 
-    const points = calculatePoints(responseTime);
+  score += points;
 
-    score += points;
+  if (correctStreak >= 5) {
+    increaseLevel();
+  }
 
-    if (correctStreak >= 5) {
-        increaseLevel();
-    }
+  updateGameInfo();
 
-    updateGameInfo();
-
-    setTimeout(() => {
-        generateQuestion();
-    }, 300);
+  setTimeout(() => {
+    generateQuestion();
+  }, 500);
 }
 
 function handleWrongAnswer() {
-    wrongAnswers++;
+  wrongAnswers++;
 
-    correctStreak = 0;
+  questionDisplay.style.color = "var(--red-color)";
+  correctStreak = 0;
 
-    updateGameInfo();
-    
-    if (wrongAnswers >= 3) {
-        endGame();
-        return;
-    }
+  updateGameInfo();
 
-    setTimeout(() => {
-        generateQuestion();
-    }, 800);
+  if (wrongAnswers >= 3) {
+    endGame();
+    return;
+  }
+
+  setTimeout(() => {
+    generateQuestion();
+  }, 500);
 }
 
 function calculatePoints(responseTime) {
-    const basePoints = 50 + ((level - 1) * 25);
+  const basePoints = 50 + (level - 1) * 25;
 
-    let speedBonus = 0;
+  let speedBonus = 0;
 
-    if (responseTime < 2000) {
-        speedBonus = 50;
-    } else if (responseTime < 4000) {
-        speedBonus = 30;
-    } else if (responseTime < 7000) {
-        speedBonus = 15;
-    }
+  if (responseTime < 2000) {
+    speedBonus = 50;
+  } else if (responseTime < 4000) {
+    speedBonus = 30;
+  } else if (responseTime < 7000) {
+    speedBonus = 15;
+  }
 
-    return basePoints + speedBonus;
+  return basePoints + speedBonus;
 }
 
 function increaseLevel() {
-    correctStreak = 0;
+  correctStreak = 0;
 
-    if (level < difficulty.length) {
-        level++;
-    }
+  if (level < difficulty.length) {
+    level++;
+  }
 }
 
 function updateGameInfo() {
-    scoreDisplay.textContent = score;
+  scoreDisplay.textContent = score;
 }
 
 function endGame() {
-    gameOver = true;
+  gameOver = true;
+  setGameInstructionText();
+  switchUI();
+  if (highScores.length < 5 || attempts < highScores[highScores.length - 1].score) {
+    highScores = saveHighScores('math-race', score, false);
+    alert(`New High Score! You've scored ${score}.`);
+  }
 }
 
-function switchUI(){
-    pregameContainer.style.display = "none";
-    gameContainer.style.display = "flex";
+function switchUI() {
+  if (pregameContainer.style.display === 'none') {
+    pregameContainer.style.display = 'flex';
+    gameContainer.style.display = 'none';
+  } else {
+    pregameContainer.style.display = 'none';
+    gameContainer.style.display = 'flex';
+  }
 }
 
-startButton.addEventListener("click", () => {
-    updateGameInfo();
-    generateQuestion();
-    switchUI();
-})
+function setGameInstructionText() {
+  if (gameOver) {
+    gameInstructions.textContent = 'Game Over! Try again';
+  } else {
+    gameInstructions.textContent = 'Solve the math problems faster to get higher scores!';
+  }
+}
 
-submitButton.addEventListener("click", () => {
-    checkAnswer();
-})
+function resetGame() {
+  score = 0;
+  level = 1;
+
+  correctStreak = 0;
+  wrongAnswers = 0;
+
+  correctAnswer = 0;
+  startTime = 0;
+  gameOver = false;
+  updateGameInfo();
+}
+
+startButton.addEventListener('click', () => {
+  resetGame();
+  generateQuestion();
+  switchUI();
+});
+
+submitButton.addEventListener('click', () => {
+  checkAnswer();
+});
+
+highscoreButton.addEventListener('click', () => {
+  alert(`High Scores:\n${highScores.map((score, index) => `${index + 1}. ${score.date}: ${score.score}`).join('\n')}`);
+});
