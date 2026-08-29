@@ -13,6 +13,7 @@
   --light-text-color: #f2f2f2;
   --button-color: #fbb03b;
   --submit-button-color: #ab6bfd;
+  --start-button-color: #3590d9;
   --green-color: #28fa99;
   --red-color: #f25b22;
 }
@@ -71,11 +72,31 @@ header {
   touch-action: manipulation;
 }
 
+.highscore-button {
+  background-color: var(--green-color);
+}
+
+.submit-button {
+    background-color: var(--submit-button-color);
+}
+
+.start-button {
+  background-color: var(--start-button-color);
+}
+
+input {
+    padding: 0.5rem;
+    font-size: 1rem;
+    width: 100px;
+    margin-bottom: 1rem;
+}
+
 /* MAIN */
 main {
   flex: 1;
 }
 
+.pregame-container,
 .game-container {
   display: flex;
   flex-direction: column;
