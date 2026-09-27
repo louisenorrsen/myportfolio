@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#252e36" />
+    <link rel="manifest" href="../../manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="../../assets/logo-180.png" />
+    <link rel="stylesheet" href="../../css/reset.css" />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link rel="stylesheet" href="multi-challenge.css" />
+    <link rel="icon" type="image/x-icon" href="../../assets/logo.ico" />
+
+    <script type="module" src="multi-challenge.js"></script>
+    <script type="module" src="../../js/highscore.js"></script>
+    <title>Multi Challenge</title>
+  </head>
+  <body>
+    <header>
+      <img src="../../assets/original_logo.png" alt="Louise Norrsén Logo" class="logo" />
+      <h1>Multi Challenge</h1>
+    </header>
+    <main>
+      <section class="button-container">
+        <a href="../../" class="button back-button">← Back to Games</a>
+        <!--<button class="button highscore-button" id="highscoreButton">Highscore</button>-->
+      </section>
+
+      <section class="pregame-container" id="pregameContainer">
+        <h2 id="game-instructions">Choose which table you want to practice:</h2>
+
+        <section class="table-section" id="table-section">
+          <button class="table-card button" data-table="1">1</button>
+          <button class="table-card button" data-table="2">2</button>
+          <button class="table-card button" data-table="3">3</button>
+          <button class="table-card button" data-table="4">4</button>
+          <button class="table-card button" data-table="5">5</button>
+          <button class="table-card button" data-table="6">6</button>
+          <button class="table-card button" data-table="7">7</button>
+          <button class="table-card button" data-table="8">8</button>
+          <button class="table-card button" data-table="9">9</button>
+          <button class="table-card button" data-table="10">10</button>
+          <button class="table-card button" data-table="11">11</button>
+          <button class="table-card button" data-table="12">12</button>
+        </section>
+      </section>
+
+      <section class="game-container is-hidden" id="gameContainer">
+        <div class="score-container">
+          <div id="progress">Question 1 of 12</div>
+          <div id="score">Correct Answers: 0</div>
+        </div>
+        
+        <div class="question-container">
+          <div id="question"></div>
+
+          <div id="answers">
+            <button class=" button answer-button"></button>
+            <button class="button answer-button"></button>
+            <button class="button answer-button"></button>
+          </div>
+
+          <div id="feedback"></div>
+        </div>
+      </section>
+      <section id="result" class="result-container is-hidden">
+        <h2>Round finished!</h2>
+        <div id="final-score"></div>
+        <button class="button" id="restart-button">Play again</button> 
+        <button class="button" id="choose-table-button">Choose another table</button>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; 2026 Louise Norrsén. All rights reserved.</p>
+    </footer>
+  </body>
+</html>
