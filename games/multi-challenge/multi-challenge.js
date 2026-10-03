@@ -1,3 +1,6 @@
+import { getDailyProgress, saveDailyProgress } from '../../js/dailies.js';
+const gameName = 'multi-challenge';
+
 let selectedTable = null;
 let questions = [];
 let currentQuestionIndex = 0;
@@ -20,6 +23,21 @@ const restartButton = document.querySelector('#restart-button');
 const chooseTableButton = document.querySelector('#choose-table-button');
 
 const tableButtons = document.querySelectorAll('[data-table]');
+
+function updateTableStars() {
+  tableButtons.forEach((button) => {
+    const table = Number(button.dataset.table);
+    const stars = getDailyProgress(gameName, table);
+
+    const starsElement = button.querySelector('.stars');
+
+    if (!starsElement) {
+      return;
+    }
+
+    starsElement.innerHTML = '<span class="filled">' + '★'.repeat(stars) + '</span>' + '<span class="empty">' + '☆'.repeat(3 - stars) + '</span>';
+  });
+}
 
 function showElement(element) {
   element.classList.remove('is-hidden');
@@ -72,6 +90,12 @@ function showResult() {
   showElement(result);
 
   finalScoreElement.textContent = `${score} out of ${questions.length} correct!`;
+
+  const starsEarned = score >= 12 ? 3 : score >= 8 ? 2 : score >= 4 ? 1 : 0;
+
+  saveDailyProgress('multi-challenge', selectedTable, starsEarned);
+
+  updateTableStars();
 }
 
 function checkAnswer(selectedAnswer, correctAnswer) {
@@ -154,6 +178,8 @@ function startGame() {
   showQuestion();
 }
 
+updateTableStars();
+
 tableButtons.forEach((button) => {
   button.addEventListener('click', () => {
     selectedTable = Number(button.dataset.table);
@@ -167,7 +193,7 @@ restartButton.addEventListener('click', () => {
 });
 
 chooseTableButton.addEventListener('click', () => {
-    hideElement(result);
-    hideElement(gameContainer);
-    showElement(pregameContainer);
+  hideElement(result);
+  hideElement(gameContainer);
+  showElement(pregameContainer);
 });
